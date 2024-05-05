@@ -43,7 +43,7 @@ module Routing_Channel(
     input [7:0] num_1,
                 num_2;   // numbers to be added.
                 
-    input       carry_0, // external carry out (if any)
+    input       carry_0, // external carry in (if any)
                 carry_A, // carry from CLB A
                 carry_B, // carry from CLB B
                 carry_C, // carry from CLB C
@@ -81,17 +81,17 @@ module Routing_Channel(
         // for A
         case(BitFile[1:0])
             2'b00:   begin CLB_Sum_A <= sum_A; Cin_A <= carry_0; num_1_A <= num_1[1:0]; num_2_A <= num_2[1:0]; end
-            2'b01:   begin CLB_Sum_A <= sum_B; Cin_A <= carry_A; num_1_A <= num_1[3:2]; num_2_A <= num_2[3:2]; end
-            2'b10:   begin CLB_Sum_A <= sum_C; Cin_A <= carry_B; num_1_A <= num_1[5:4]; num_2_A <= num_2[5:4]; end
-            2'b11:   begin CLB_Sum_A <= sum_D; Cin_A <= carry_C; num_1_A <= num_1[7:6]; num_2_A <= num_2[7:6]; end
+            2'b01:   begin CLB_Sum_A <= sum_B; Cin_A <= carry_B; num_1_A <= num_1[3:2]; num_2_A <= num_2[3:2]; end
+            2'b10:   begin CLB_Sum_A <= sum_C; Cin_A <= carry_C; num_1_A <= num_1[5:4]; num_2_A <= num_2[5:4]; end
+            2'b11:   begin CLB_Sum_A <= sum_D; Cin_A <= carry_D; num_1_A <= num_1[7:6]; num_2_A <= num_2[7:6]; end
             default: begin CLB_Sum_A <= sum_A; Cin_A <= carry_0; num_1_A <= num_1[1:0]; num_2_A <= num_2[1:0]; end
         endcase
         // for B
         case(BitFile[3:2])
             2'b00:   begin CLB_Sum_B <= sum_A; Cin_B <= carry_0; num_1_B <= num_1[1:0]; num_2_B <= num_2[1:0]; end
             2'b01:   begin CLB_Sum_B <= sum_B; Cin_B <= carry_A; num_1_B <= num_1[3:2]; num_2_B <= num_2[3:2]; end
-            2'b10:   begin CLB_Sum_B <= sum_C; Cin_B <= carry_B; num_1_B <= num_1[5:4]; num_2_B <= num_2[5:4]; end
-            2'b11:   begin CLB_Sum_B <= sum_D; Cin_B <= carry_C; num_1_B <= num_1[7:6]; num_2_B <= num_2[7:6]; end
+            2'b10:   begin CLB_Sum_B <= sum_C; Cin_B <= carry_C; num_1_B <= num_1[5:4]; num_2_B <= num_2[5:4]; end
+            2'b11:   begin CLB_Sum_B <= sum_D; Cin_B <= carry_D; num_1_B <= num_1[7:6]; num_2_B <= num_2[7:6]; end
             default: begin CLB_Sum_B <= sum_B; Cin_B <= carry_A; num_1_B <= num_1[3:2]; num_2_B <= num_2[3:2]; end
         endcase
         // for C
@@ -99,7 +99,7 @@ module Routing_Channel(
             2'b00:   begin CLB_Sum_C <= sum_A; Cin_C <= carry_0; num_1_C <= num_1[1:0]; num_2_C <= num_2[1:0]; end
             2'b01:   begin CLB_Sum_C <= sum_B; Cin_C <= carry_A; num_1_C <= num_1[3:2]; num_2_C <= num_2[3:2]; end
             2'b10:   begin CLB_Sum_C <= sum_C; Cin_C <= carry_B; num_1_C <= num_1[5:4]; num_2_C <= num_2[5:4]; end
-            2'b11:   begin CLB_Sum_C <= sum_D; Cin_C <= carry_C; num_1_C <= num_1[7:6]; num_2_C <= num_2[7:6]; end
+            2'b11:   begin CLB_Sum_C <= sum_D; Cin_C <= carry_D; num_1_C <= num_1[7:6]; num_2_C <= num_2[7:6]; end
             default: begin CLB_Sum_C <= sum_C; Cin_C <= carry_B; num_1_C <= num_1[5:4]; num_2_C <= num_2[5:4]; end
         endcase
         // for D
@@ -110,8 +110,15 @@ module Routing_Channel(
             2'b11:   begin CLB_Sum_D <= sum_D; Cin_D <= carry_C; num_1_D <= num_1[7:6]; num_2_D <= num_2[7:6]; end
             default: begin CLB_Sum_D <= sum_D; Cin_D <= carry_C; num_1_D <= num_1[7:6]; num_2_D <= num_2[7:6]; end
         endcase
+        // for external carry out
+        case(BitFile[7:6])
+            2'b00:   Cout <= carry_A;
+            2'b01:   Cout <= carry_B;
+            2'b10:   Cout <= carry_C;
+            2'b11:   Cout <= carry_D;
+            default: Cout <= carry_D;
+        endcase
         
-        Cout <= carry_D;
     end                               
                                      
 endmodule
