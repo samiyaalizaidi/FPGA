@@ -1,6 +1,6 @@
 # Field Programmable Gate Array
 
-There are two main components of the FPGAs: the CLB (configurable logic block) and the routing channel/interconnect.
+There are two main components of an FPGA: the CLB (configurable logic block) and the routing channel/interconnect.
 
 The configurable logic block is essentially the combinational block of the FPGA, but instead of having adders and multipliers, we have a Look-Up Table (LUT) or a ROM, where the outputs of a particular combinational operation are pre-computed.
 
@@ -55,3 +55,6 @@ Because of the D-Flip Flops placed at the output of the CLB modules, the output 
    <p align="center">
     <img src="img/wf-6.png" alt="waveform">
    </p>
+
+---
+**Contributions:** All of the code in this repository is written by [Samiya Ali Zaidi](https://www.linkedin.com/in/samiya-ali-zaidi)
